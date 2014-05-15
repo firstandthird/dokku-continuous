@@ -42,6 +42,8 @@ http.createServer(function (req, res) {
         if (err) {
           return res.end(JSON.stringify(err));
         }
+        console.log('out', stdout);
+        console.log('err', stderr);
         res.end('done');
       });
 
