@@ -22,6 +22,6 @@ http.createServer(function (req, res) {
 
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end('ok');
-}).listen(port, '127.0.0.1');
+}).listen(port, '0.0.0.0');
 
-console.log('Server running at http://127.0.0.1:'+port+'/');
+console.log('Server running at http://localhost:'+port+'/');
