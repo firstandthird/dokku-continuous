@@ -1,0 +1,28 @@
+#!/bin/bash
+TOKEN=$1
+USER=$2
+REPO=$3
+BRANCH=$4
+TARGET=$5
+DIR=$6
+
+#TODO: check if all things are passed in
+
+run() {
+  cd $DIR
+  if [ -d "$DIR/$REPO" ]; then
+    cd $REPO
+    git reset --hard
+    git checkout $BRANCH
+    git pull origin $BRANCH
+    git remote rm dokku
+  else
+    git clone https://$USER:$TOKEN@github.com/$USER/$REPO.git
+    cd $REPO
+  fi
+
+  git remote add dokku dokku@localhost:$TARGET
+
+  git push dokku
+}
+run
