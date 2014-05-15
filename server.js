@@ -29,7 +29,7 @@ http.createServer(function (req, res) {
 
       var cmdArr = [
         __dirname + '/deploy',
-        process.env.GITHUB_TOKEN,
+        process.env.GITHUBTOKEN,
         user,
         repo,
         branch,
@@ -39,11 +39,12 @@ http.createServer(function (req, res) {
       console.log(cmdArr);
       exec(cmdArr.join(' '), function(err, stdout, stderr) {
         res.writeHead(200, {'Content-Type': 'text/plain'});
+        console.log(err);
+        console.log('out', stdout);
+        console.log('err', stderr);
         if (err) {
           return res.end(JSON.stringify(err));
         }
-        console.log('out', stdout);
-        console.log('err', stderr);
         res.end('done');
       });
 
