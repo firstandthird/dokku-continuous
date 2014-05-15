@@ -14,8 +14,15 @@ http.createServer(function (req, res) {
 
       var data = JSON.parse(body);
 
-      console.log(data);
-      // use POST
+      var prefix = req.url.substr(1);
+      var repo = data.repository.name;
+      var user = data.repository.owner.name;
+      var branchSplit = data.ref.split('/');
+      var branch = branchSplit[branchSplit.length-1];
+
+      var target = (prefix) ? prefix +'-'+ branch : branch;
+
+      console.log(prefix, repo, user, branch, target);
 
     });
   }
