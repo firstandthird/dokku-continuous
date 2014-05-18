@@ -34,7 +34,7 @@ case "$1" in
         if [[ -f "$ssh_key" ]]; then
           cat $ssh_key | sshcommand acl-add dokku continuous
         else
-          echo "$ssh_key doesn't exist"
+          echo "there was an error, please delete and try again"
         fi
       fi
     fi
