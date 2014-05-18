@@ -22,7 +22,6 @@ http.createServer(function (req, res) {
       var prefix = req.url.substr(1);
       var repo = data.repository.name;
       var user = data.repository.owner.name;
-      console.log(data);
       var branch = data.ref.replace('refs/heads/', '');
       var branchSlug =  branch.replace(/\//g, '-');
 
@@ -40,9 +39,6 @@ http.createServer(function (req, res) {
       console.log(cmdArr);
       exec(cmdArr.join(' '), function(err, stdout, stderr) {
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        console.log(err);
-        console.log('out', stdout);
-        console.log('err', stderr);
         if (err) {
           return res.end(JSON.stringify(err));
         }
@@ -53,8 +49,11 @@ http.createServer(function (req, res) {
   } else {
     res.writeHead(200, {'Content-Type': 'text/plain'});
     exec('ssh -o StrictHostKeyChecking=no dokku@172.17.42.1 help', function(err, stdout, stderr) {
-      console.log(arguments);
-      res.end(JSON.stringify(stdout));
+      if (err) {
+        res.end(JSON.stringify(err));
+      } else {
+        res.end('ok');
+      }
     });
   }
 }).listen(port, '0.0.0.0');
