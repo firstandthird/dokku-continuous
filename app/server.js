@@ -34,7 +34,7 @@ http.createServer(function (req, res) {
         repo,
         branch,
         target,
-        '.'
+        '/repos'
       ];
       console.log(cmdArr);
       exec(cmdArr.join(' '), function(err, stdout, stderr) {

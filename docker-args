@@ -2,5 +2,5 @@
 
 APP=$1
 if [[ "$APP" == "continuous" ]]; then
-  echo "-v $DOKKU_ROOT/$APP/ssh:/root/.ssh"
+  echo "-v $DOKKU_ROOT/$APP/ssh:/root/.ssh -v $DOKKU_ROOT/$APP/repos:/repos"
 fi
