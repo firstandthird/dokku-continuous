@@ -22,7 +22,8 @@ http.createServer(function (req, res) {
       var prefix = req.url.substr(1);
       var repo = data.repository.name;
       var user = data.repository.owner.name;
-      var branch = data.ref.replace('refs/head/', '');
+      console.log(data);
+      var branch = data.ref.replace('refs/heads/', '');
       var branchSlug =  branch.replace(/\//g, '-');
 
       var target = (prefix) ? prefix +'-'+ branchSlug : branchSlug;
