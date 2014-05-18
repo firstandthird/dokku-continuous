@@ -21,7 +21,7 @@ run() {
     cd $REPO
   fi
 
-  git remote add dokku dokku@localhost:$TARGET
+  git remote add dokku dokku@172.17.42.1:$TARGET
 
   git push dokku
 }

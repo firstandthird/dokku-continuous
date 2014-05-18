@@ -1,0 +1,1 @@
+web: ./ssh && node server.js

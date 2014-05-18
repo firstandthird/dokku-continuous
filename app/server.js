@@ -51,7 +51,10 @@ http.createServer(function (req, res) {
     });
   } else {
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('ok');
+    exec('ssh -o StrictHostKeyChecking=no dokku@172.17.42.1 help', function(err, stdout, stderr) {
+      console.log(arguments);
+      res.end(JSON.stringify(stdout));
+    });
   }
 }).listen(port, '0.0.0.0');
 

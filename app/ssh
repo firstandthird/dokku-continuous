@@ -1,0 +1,6 @@
+#!/bin/bash
+
+path=/root/.ssh
+if [[ ! -f "$path/id_rsa" ]]; then
+  ssh-keygen -q -f $path/id_rsa -P ""
+fi
