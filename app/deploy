@@ -19,10 +19,11 @@ run() {
   else
     git clone https://$USER:$TOKEN@github.com/$USER/$REPO.git
     cd $REPO
+    git checkout $BRANCH
   fi
 
   git remote add dokku dokku@172.17.42.1:$TARGET
 
-  git push dokku $BRANCH
+  git push dokku $BRANCH:master
 }
 run
