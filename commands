@@ -25,6 +25,7 @@ case "$1" in
       else
         mkdir -p $APP_PATH
         mkdir $APP_PATH/ssh
+        mkdir $APP_PATH/repos
         echo "export GITHUBTOKEN=$token" > $APP_PATH/ENV
         cd $PLUGIN_PATH/$APP/app && tar c . | dokku receive $APP
         remove_existing_key
