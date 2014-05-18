@@ -45,6 +45,7 @@ case "$1" in
     fi
     ;;
   continuous:delete)
+    echo "Deleting $APP"
     remove_existing_key
     dokku delete $APP
     echo "$APP deleted"
