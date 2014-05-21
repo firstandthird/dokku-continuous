@@ -13,6 +13,7 @@ run() {
   if [ -d "$DIR/$REPO" ]; then
     cd $REPO
     git reset --hard
+    git fetch
     git checkout $BRANCH
     git pull origin $BRANCH
     git remote rm dokku
