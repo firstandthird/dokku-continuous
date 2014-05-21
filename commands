@@ -27,15 +27,8 @@ case "$1" in
         mkdir $APP_PATH/ssh
         mkdir $APP_PATH/repos
         echo "export GITHUBTOKEN=$token" > $APP_PATH/ENV
-        cd $PLUGIN_PATH/$APP/app && tar c . | dokku receive $APP
         remove_existing_key
-        ssh_key=$APP_PATH/ssh/id_rsa.pub
-        sleep 2 #wait for docker startup
-        if [[ -f "$ssh_key" ]]; then
-          cat $ssh_key | sshcommand acl-add dokku continuous
-        else
-          echo "there was an error, please delete and try again"
-        fi
+        cd $PLUGIN_PATH/$APP/app && tar c . | dokku receive $APP
       fi
     fi
     ;;
