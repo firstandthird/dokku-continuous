@@ -7,7 +7,7 @@ IMAGE=dokku/continuous
 
 if [[ "$APP" == "continuous" ]]; then
   echo "-----> Generating SSH key"
-  id=$(docker run -d $IMAGE /bin/bash -c "/app/ssh")
+  id=$(docker run -d -v $DOKKU_ROOT/$APP/ssh:/root/.ssh $IMAGE /bin/bash -c "/app/ssh")
   test $(docker wait $id) -eq 0
   docker commit $id $IMAGE > /dev/null
 
