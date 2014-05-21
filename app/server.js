@@ -41,7 +41,6 @@ http.createServer(function (req, res) {
       var target = (prefix) ? prefix +'-'+ branchSlug : branchSlug;
 
       deploy(user, repo, branch, target, function(err) {
-        console.log(arguments);
         res.writeHead(200, {'Content-Type': 'text/plain'});
         if (err) {
           return res.end(JSON.stringify(err));
