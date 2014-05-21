@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+APP=$1
+APP_PATH=$DOKKU_ROOT/$APP
+IMAGE=dokku/continuous
+
+if [[ "$APP" == "continuous" ]]; then
+  echo "-----> Generating SSH key"
+  id=$(docker run -d $IMAGE /bin/bash -c "/app/ssh")
+  test $(docker wait $id) -eq 0
+  docker commit $id $IMAGE > /dev/null
+
+  ssh_key=$APP_PATH/ssh/id_rsa.pub
+  cat $ssh_key | sshcommand acl-add dokku continuous
+  echo "-----> SSH key added to host"
+fi
