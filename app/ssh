@@ -4,3 +4,6 @@ key_path=/root/.ssh
 if [[ ! -f "$key_path/id_rsa" ]]; then
   ssh-keygen -q -f $key_path/id_rsa -P ""
 fi
+echo "Host *" > $key_path/config
+echo "  StrictHostKeyChecking no" >> $key_path/config
+echo $key_path/config
