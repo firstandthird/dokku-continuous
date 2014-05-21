@@ -1,5 +1,4 @@
 var http = require('http');
-var qs = require('querystring');
 var exec = require('child_process').exec;
 
 var port = process.env.PORT || 8000;
@@ -7,6 +6,20 @@ var port = process.env.PORT || 8000;
 if (!process.env.GITHUBTOKEN) {
   throw new Error('GITHUBTOKEN must be set in env');
 }
+
+var deploy = function(user, repo, branch, target, callback) {
+  var cmdArr = [
+    __dirname + '/deploy',
+    process.env.GITHUBTOKEN,
+    user,
+    repo,
+    branch,
+    target,
+    '/repos'
+  ];
+  console.log(cmdArr);
+  exec(cmdArr.join(' '), callback);
+};
 
 http.createServer(function (req, res) {
 
@@ -27,23 +40,15 @@ http.createServer(function (req, res) {
 
       var target = (prefix) ? prefix +'-'+ branchSlug : branchSlug;
 
-      var cmdArr = [
-        __dirname + '/deploy',
-        process.env.GITHUBTOKEN,
-        user,
-        repo,
-        branch,
-        target,
-        '/repos'
-      ];
-      console.log(cmdArr);
-      exec(cmdArr.join(' '), function(err, stdout, stderr) {
+      deploy(user, repo, branch, target, function(err) {
+        console.log(arguments);
         res.writeHead(200, {'Content-Type': 'text/plain'});
         if (err) {
           return res.end(JSON.stringify(err));
         }
         res.end('done');
       });
+
 
     });
   } else {
