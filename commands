@@ -9,6 +9,15 @@ remove_existing_key() {
   sed -i '/NAME=continuous/d' ~/.ssh/authorized_keys
 }
 
+build_app() {
+  mkdir -p $APP_PATH
+  mkdir -p $APP_PATH/ssh
+  mkdir -p $APP_PATH/repos
+  echo "export GITHUBTOKEN=$token" > $APP_PATH/ENV
+  remove_existing_key
+  cd $PLUGIN_PATH/$APP/app && tar c . | dokku receive $APP
+}
+
 case "$1" in
   continuous:start)
     token=$2
@@ -23,12 +32,7 @@ case "$1" in
       if [[ "$stopped_id" != "" ]]; then
         docker start $stopped_id
       else
-        mkdir -p $APP_PATH
-        mkdir $APP_PATH/ssh
-        mkdir $APP_PATH/repos
-        echo "export GITHUBTOKEN=$token" > $APP_PATH/ENV
-        remove_existing_key
-        cd $PLUGIN_PATH/$APP/app && tar c . | dokku receive $APP
+        build_app
       fi
     fi
     ;;
@@ -37,6 +41,10 @@ case "$1" in
       docker stop $ID
       echo "$APP stopped"
     fi
+    ;;
+  continuous:rebuild)
+    echo "Rebuilding $APP"
+    build_app
     ;;
   continuous:delete)
     echo "Deleting $APP"
