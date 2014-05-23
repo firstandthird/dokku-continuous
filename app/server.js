@@ -31,7 +31,6 @@ var deploy = function(user, repo, branch, prefix, callback) {
     process.stdout.write('ERROR: '+ data.toString());
   });
   deploy.on('close', function(code) {
-    process.stdout.write('CODE: '+ code.toString());
     console.log('DEPLOY COMPLETE');
     callback();
   });
