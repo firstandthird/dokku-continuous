@@ -13,7 +13,7 @@ var deploy = function(user, repo, branch, prefix, callback) {
   var branchSlug =  branch.replace(/\//g, '-');
 
   var target = (prefix) ? prefix +'-'+ branchSlug : branchSlug;
-  console.log('DEPLOYING: '+user+'/'+repo+'@'+branch +' to '+prefix);
+  console.log('DEPLOYING: '+user+'/'+repo+'@'+branch +' to '+target);
 
   var args = [
     process.env.GITHUBTOKEN,
