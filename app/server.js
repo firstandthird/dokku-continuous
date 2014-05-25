@@ -37,6 +37,7 @@ var deploy = function(user, repo, branch, prefix, callback) {
 };
 
 http.createServer(function (req, res) {
+  console.log('NEW REQUEST at ', new Date().toString(), ' - ', req.url);
   res.writeHead(200, {'Content-Type': 'text/plain'});
 
   if (req.url == '/_ssh') {
@@ -69,6 +70,8 @@ http.createServer(function (req, res) {
       var data = JSON.parse(body);
       if (!data.repository) {
         return console.log('HOOK: Got hook from github, but not pull');
+      } else {
+        console.log('Push hook received from github');
       }
 
       var prefix = req.url.substr(1);
