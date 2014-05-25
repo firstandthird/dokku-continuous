@@ -46,7 +46,6 @@ http.createServer(function (req, res) {
     });
     return;
   }
-  res.end('ok');
 
   if (req.url.match(/^\/_deploy/)) {
     var query = req.url.split('?')[1];
@@ -55,6 +54,7 @@ http.createServer(function (req, res) {
       if (err) {
         console.log('ERROR', err);
       }
+      res.end('ok');
     });
     return;
   }
@@ -81,6 +81,7 @@ http.createServer(function (req, res) {
         console.log('Got tag, skipping');
       }
       var branch = data.ref.replace('refs/heads/', '');
+      res.end('ok');
 
       deploy(user, repo, branch, prefix, function(err) {
         if (err) {
