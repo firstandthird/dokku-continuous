@@ -8,10 +8,24 @@ DIR=$6
 
 #TODO: check if all things are passed in
 
+LOCKFILE="$DIR/$REPO/continuous.lock"
+ATTEMPTS=0
+MAXATTEMPTS=10
+
 run() {
   cd $DIR
   if [ -d "$DIR/$REPO" ]; then
     cd $REPO
+    while [ -f "$LOCKFILE" ]; do
+      echo "Lock file exists, waiting for previous build to finish"
+      sleep 60
+      ATTEMPTS=$(($TEST+1))
+      if [[ "$MAXATTEMPTS" == "$ATTEMPTS" ]]; then
+        echo "Reached max attemps, exiting"
+        exit 0
+      fi
+    done
+    touch $LOCKFILE
     git reset --hard
     git fetch
     git checkout $BRANCH
@@ -21,10 +35,13 @@ run() {
     git clone https://$USER:$TOKEN@github.com/$USER/$REPO.git
     cd $REPO
     git checkout $BRANCH
+    touch $LOCKFILE
   fi
 
   git remote add dokku dokku@172.17.42.1:$TARGET
 
   git push dokku $BRANCH:master
+
+  rm $LOCKFILE
 }
 run
